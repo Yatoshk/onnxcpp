@@ -8,7 +8,7 @@ std::vector<std::string> loadLabels(const std::string& filename);
 int main()
 {
     const std::string labelFile = "C:/Users/chesa/source/repos/onnxcpp/onnxcpp/assets/lb.txt";
-    auto modelPath = L"C:/Users/chesa/source/repos/onnxcpp/onnxcpp/assets/colormodel.onnx";
+    auto modelPath = L"C:/Users/chesa/source/repos/onnxcpp/onnxcpp/assets/modelColor.onnx";
     // Load the model and create InferenceSession
     Ort::Env env;
     Ort::RunOptions runOptions;
@@ -26,11 +26,11 @@ int main()
     const std::array<int64_t, 2> inputShape = { 1, 3 };
     const std::array<int64_t, 2> outputShape = { 1, numClasses };
 
-    std::array<float, 3> input = {255, 190, 3};
+    std::array<int64_t, 3> input = {200, 190, 3};
     std::array<float, numClasses> results;
     // define Tensor
     auto memory_info = Ort::MemoryInfo::CreateCpu(OrtDeviceAllocator, OrtMemTypeCPU);
-    auto inputTensor = Ort::Value::CreateTensor<float>(memory_info, input.data(), input.size(), inputShape.data(), inputShape.size());
+    auto inputTensor = Ort::Value::CreateTensor<int64_t>(memory_info, input.data(), input.size(), inputShape.data(), inputShape.size());
     auto outputTensor = Ort::Value::CreateTensor<float>(memory_info, results.data(), results.size(), outputShape.data(), outputShape.size());
 
     // define names
